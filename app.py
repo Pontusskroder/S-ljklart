@@ -1,7 +1,8 @@
 import os, base64, json, re
 from flask import Flask, request, jsonify, send_from_directory
 from openai import OpenAI
-
+from PIL import Image
+import io
 app = Flask(__name__, static_folder=".")
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
@@ -59,11 +60,21 @@ def build_content(item, desc, price, place, image):
     content = [{
         "type": "input_text",
         "text": f"Produkt: {item}\nBeskrivning: {desc}\nPris: {price}\nOrt: {place}"
-    }]
-    if image and image.filename:
+  }] 
+  if image and image.filename:
         raw = image.read()
-        mime = image.mimetype or "image/jpeg"
+
+        img = Image.open(io.BytesIO(raw))
+        img.thumbnail((1200, 1200))
+
+        buffer = io.BytesIO()
+        img.convert("RGB").save(buffer, format="JPEG", quality=80, optimize=True)
+
+        raw = buffer.getvalue()
+        mime = "image/jpeg"
         b64 = base64.b64encode(raw).decode("utf-8")
+        
+  
         content.append({
             "type": "input_image",
             "image_url": f"data:{mime};base64,{b64}"
