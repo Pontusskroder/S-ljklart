@@ -48,7 +48,36 @@ price_suggestion:
 - Om inget pris angetts: skriv "💰 Pris saknas"
 - Hitta aldrig på ett pris.
 """
+def build_content(item, desc, price, place, image):
+    content = [{
+        "type": "input_text",
+        "text": f"Produkt: {item}\nBeskrivning: {desc}\nPris: {price}\nOrt: {place}"
+    }]
 
+    if image and image.filename:
+        raw = image.read()
+
+        img = Image.open(io.BytesIO(raw))
+        img.thumbnail((1200, 1200))
+
+        buffer = io.BytesIO()
+        img.convert("RGB").save(
+            buffer,
+            format="JPEG",
+            quality=80,
+            optimize=True
+        )
+
+        raw = buffer.getvalue()
+        mime = "image/jpeg"
+        b64 = base64.b64encode(raw).decode("utf-8")
+
+        content.append({
+            "type": "input_image",
+            "image_url": f"data:{mime};base64,{b64}"
+        })
+
+    return content
 def parse_json(text):
     text = (text or "").strip()
     if text.startswith("```"):
@@ -56,7 +85,7 @@ def parse_json(text):
         text = re.sub(r"\s*```$", "", text)
     return json.loads(text)
 
-def build_content(item, desc, price, place, image):
+
     content = [{
         "type": "input_text",
         "text": f"Produkt: {item}\nBeskrivning: {desc}\nPris: {price}\nOrt: {place}"
