@@ -61,7 +61,7 @@ def build_content(item, desc, price, place, image):
         "type": "input_text",
         "text": f"Produkt: {item}\nBeskrivning: {desc}\nPris: {price}\nOrt: {place}"
     }]
-       if image and image.filename:
+    if image and image.filename:
         raw = image.read()
 
         img = Image.open(io.BytesIO(raw))
@@ -83,7 +83,7 @@ def build_content(item, desc, price, place, image):
             "type": "input_image",
             "image_url": f"data:{mime};base64,{b64}"
         })
-       return content
+     return content
 
 @app.get("/")
 def index():
