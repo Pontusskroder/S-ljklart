@@ -48,7 +48,7 @@ price_suggestion:
 - Om inget pris angetts: skriv "💰 Pris saknas"
 - Hitta aldrig på ett pris.
 """
- def build_content(item, desc, price, place, image):
+def build_content(item, desc, price, place, image):
     content = [{
         "type": "input_text",
         "text": f"Produkt: {item}\nBeskrivning: {desc}\nPris: {price}\nOrt: {place}"
