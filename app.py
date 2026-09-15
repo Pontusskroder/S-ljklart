@@ -58,17 +58,17 @@ def build_content(item, desc, price, place, image):
         raw = image.read()
 
         img = Image.open(io.BytesIO(raw))
-        img.thumbnail((1200, 1200))
+        img.thumbnail((800, 800))
 
         buffer = io.BytesIO()
         img.convert("RGB").save(
             buffer,
             format="JPEG",
-            quality=80,
+            quality=70,
             optimize=True
         )
 
-        raw = buffer.getvalue()
+        raw = uffer.getvalue()
         mime = "image/jpeg"
         b64 = base64.b64encode(raw).decode("utf-8")
 
