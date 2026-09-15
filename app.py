@@ -48,7 +48,7 @@ price_suggestion:
 - Om inget pris angetts: skriv "💰 Pris saknas"
 - Hitta aldrig på ett pris.
 """
-def build_content(item, desc, price, place, image):
+ def build_content(item, desc, price, place, image):
     content = [{
         "type": "input_text",
         "text": f"Produkt: {item}\nBeskrivning: {desc}\nPris: {price}\nOrt: {place}"
@@ -76,7 +76,6 @@ def build_content(item, desc, price, place, image):
             "type": "input_image",
             "image_url": f"data:{mime};base64,{b64}"
         })
-
     return content
 def parse_json(text):
     text = (text or "").strip()
