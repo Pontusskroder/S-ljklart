@@ -82,8 +82,8 @@ def build_content(item, desc, price, place, image):
         content.append({
             "type": "input_image",
             "image_url": f"data:{mime};base64,{b64}"
-        })
-     return content
+        })    
+    return content
 
 @app.get("/")
 def index():
