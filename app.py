@@ -163,8 +163,18 @@ def create_ad():
             price_suggestion=data.get("price_suggestion", ""),
             ad_text=data.get("ad_text", "")
         )
-    except Exception as e:
-        return jsonify(error=f"AI-fel: {e}"), 500
+            except Exception as e:
+        error_text = str(e)
+
+        if "429" in error_text or "rate_limit_exceeded" in error_text:
+            return jsonify(
+                error="Oj! Säljklart är lite för hårt belastat just nu. Försök igen om en liten stund."
+            ), 429
+
+        return jsonify(
+            error="Något gick fel när annonsen skulle skapas. Försök igen."
+        ), 500
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
