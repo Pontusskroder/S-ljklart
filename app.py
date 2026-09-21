@@ -163,7 +163,7 @@ def create_ad():
             price_suggestion=data.get("price_suggestion", ""),
             ad_text=data.get("ad_text", "")
         )
-            except Exception as e:
+     except Exception as e:
         error_text = str(e)
 
         if "429" in error_text or "rate_limit_exceeded" in error_text:
